@@ -1,31 +1,18 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xlmns="http://www.w3.org/1999/xhtml" lang="en-US" />
 <head>
-<style>
-#div1 {width:350px;height:350px;padding:10px;border:1px solid black}
-</style>
-<script>
-function allowDrop(event) {
-    event.preventDefault();
-}
-
-function drag(event) {
-    event.dataTransfer.setData("text", event.target.id);
-}
-
-function drop(event) {
-    event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    event.target.appendChild(document.getElementById(data));
-}
-</script>
+  <title>Software Engineering for Sustainability</title>
+  <link rel="stylesheet" href="src/css/drag_and_drop.css" />
 </head>
 <body>
-
-<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-
-<img id="worm" src="worm_envelope.png" alt="GreenYaCode Logo" draggable="true"
-ondragstart="drag(event)">
-
+    
+<aside draggable="true" id="dragme">
+  <img id="worm" src="img/worm_envelope.png" alt="GreenYaCode Logo"
+  draggable="false" style="width:302px;height:120px" />
+</aside>
+<div id="div1">
+    
 </body>
+<script src="src/js/drag_and_drop.js"></script>
 </html>

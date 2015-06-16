@@ -3,4 +3,5 @@
 -----------
 Description
 -----------
-This toolkit provides a browser-based set of tools for designing sustainable software.
+This toolkit provides a browser-based set of tools for designing sustainable
+software.
