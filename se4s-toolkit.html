@@ -1,18 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xlmns="http://www.w3.org/1999/xhtml" lang="en-US" />
+<html xlmns="http://www.w3.org/1999/xhtml" lang="en-US">
 <head>
   <title>Software Engineering for Sustainability</title>
-  <link rel="stylesheet" href="src/css/drag_and_drop.css" />
+  <script src=
+          "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+  </script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src=
+    "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js">
+  </script>
+  <link rel="stylesheet" href="src/css/style.css" />
+  <script src="src/js/element.js"></script>
 </head>
 <body>
     
-<aside draggable="true" id="dragme">
-  <img id="worm" src="img/worm_envelope.png" alt="GreenYaCode Logo"
-  draggable="false" style="width:302px;height:120px" />
-</aside>
-<div id="div1">
+<div id="element" class="ui-widget-content">
+  <p>Drag me around</p>
+</div>
     
 </body>
-<script src="src/js/drag_and_drop.js"></script>
 </html>
