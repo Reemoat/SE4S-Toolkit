@@ -1,5 +1,21 @@
-#element {
+div#palette {
+    padding: 0;
     width: 150px;
-    height: 150px;
-    padding: 0.5em;
+    float: right;
+}
+img.palette_icon {
+    float: left;
+    padding: 0px 4px;
+}
+button.palette_heading {
+    color: #000000;
+    background-color: #F0F0F0;
+    width: 150px;
+    text-align: left;
+}
+div.option {
+    cursor: pointer;
+}
+div#select {
+    background-color: #AAFFFF;
 }
