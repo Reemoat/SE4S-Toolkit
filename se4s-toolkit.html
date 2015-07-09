@@ -19,19 +19,11 @@
     src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
   </script>
   <script type="text/javascript" src="src/js/raphael.js"></script>
-  <script src="src/js/element.js"></script>
+  <script type="text/javascript" src"src/js/raphael.free_transform.js"></script>
+  <script type="text/javascript" src="src/js/element.js"></script>
 </head>
-<body>
-  <!--div id="holder">
-    <svg height="480" version="1.1" width="640"
-      xmlns="http://www.w3.org/2000/svg" style="overflow:hidden">
-      <desc>Created with Raphael 2.1.2</desc>
-      <defs></defs>
-      <rect x="290" y="80" width="60" height="40" rx="20" ry="20"
-        fill="#ffffff" stroke="#000000" stroke-width="2" style="cursor:move;
-        opacity:1"></rect>
-    </svg>
-  </div-->
+<body onload="canvas.makeCanvas()">
+  <div id="canvas" onclick="canvas.canvasClick()"></div>
   <div id="palette">
     <button class="palette_heading" type="button" class="btn btn-info"
     data-toggle="collapse" data-target="#palette_top">
@@ -39,11 +31,11 @@
       Palette
     </button>
     <div id="palette_top" class="collapse">
-      <div id="select" class="option" onclick="highlight()">
+      <div id="select" class="option" onclick="palette.highlight()">
         <img src="img/arrow16.gif" "Mouse Pointer" />
         Select
       </div>
-      <div class="option" onclick="highlight()">
+      <div id="comment" class="option" onclick="palette.highlight()">
         <img src="img/Comment16.gif" alt="Comment" />
         Comment
       </div>
@@ -54,19 +46,19 @@
       Links
     </button>
     <div id="links" class="collapse">
-      <div class="option" onclick="highlight()">
+      <div id="decomposition" class="option" onclick="palette.highlight()">
         <img src="img/Decomposition16.gif" alt="Decomposition" />
         Decomposition
       </div>
-      <div class="option" onclick="highlight()">
+      <div id="contribution" class="option" onclick="palette.highlight()">
         <img src="img/Contribution16.gif" alt="Contribution" />
         Contribution
       </div>
-      <div class="option" onclick="highlight()">
+      <div id="dependency" class="option" onclick="palette.highlight()">
         <img src="img/Dependency16.gif" alt="Dependency"/>
         Dependency
       </div>
-      <div class="option" onclick="highlight()">
+      <div id="belief_link" class="option" onclick="palette.highlight()">
         <img src="img/BeliefLink16.gif" alt="Belief" />
         Belief Link
       </div>
@@ -77,7 +69,7 @@
       Components
     </button>
     <div id="components" class="collapse">
-      <div class="option" onclick="highlight()">
+      <div id="actor" class="option" onclick="palette.highlight()">
         <img src="img/GRLActor16.gif" alt="Actor" />
         Actor
       </div>
@@ -88,27 +80,28 @@
       Elements
     </button>
     <div id="elements" class="collapse">
-      <div class="option" onclick="highlight()">
+      <div id="softgoal" class="option" onclick="palette.highlight()">
         <img src="img/Softgoal16.gif" alt="Softgoal" />
         Softgoal
       </div>
-      <div class="option" onclick="highlight()">
+      <div id="goal" class="option" onclick="palette.highlight()">
         <img src="img/Goal16.gif" alt="Goal" />
         Goal
       </div>
-      <div class="option" onclick="highlight()">
+      <div id="task" class="option" onclick="palette.highlight()">
         <img src="img/Task16.gif" alt="Task" />
         Task
       </div>
-      <div class="option" onclick="highlight()">
+      <div id="resource" class="option" onclick="palette.highlight()">
         <img src="img/Resource16.gif" alt="Resource" />
         Resource
       </div>
-      <div class="option" onclick="highlight()">
+      <div id="belief" class="option" onclick="palette.highlight()">
         <img src="img/Belief16.gif" alt="Belief" />
         Belief
       </div>
     </div>
   </div>
+  <p id=dummy></p>
 </body>
 </html>
