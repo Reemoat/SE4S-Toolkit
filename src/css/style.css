@@ -8,8 +8,8 @@ div#palette {
 }
 div#canvas {
     border: 5px solid;
-    width: 300px;
-    height: 300px;
+    width: 1000px;
+    height: 500px;
     resize: both;
     overflow: auto;
 }
