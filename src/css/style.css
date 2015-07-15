@@ -9,7 +9,7 @@ div#palette {
 div#canvas {
     border: 5px solid;
     width: 1000px;
-    height: 500px;
+    height: 600px;
     resize: both;
     overflow: auto;
 }

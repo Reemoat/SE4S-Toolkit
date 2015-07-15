@@ -36,7 +36,9 @@ var canvas = {
     },
     makeCanvas: function() {
         var container = document.getElementById("canvas");
-        this.paper = Raphael(container, 1024, 720);
+
+        this.paper = Raphael(container);
+        this.paper.setSize("100%", "100%");
     },
     canvasClick: function() {
         var x = event.clientX;
@@ -60,39 +62,55 @@ var canvas = {
             case "actor":
               break;
             case "softgoal":
-              var softGoal = this.paper.path(
-                      "m 292.42625,108.03112 c 0,139.29317 -61.44177,54.97922 -129.24678,52.38302 C 103.33749,158.12283 34.751234,255.76386 34.426785,116.47162 34.102323,-22.820596 87.54865,67.976128 175.65107,67.206668 263.75344,66.437233 291.77302,-31.240699 292.4219,108.0487")
-                      .attr(attr);
-              var ft = this.paper.freeTransform(softGoal);
-              ft.hideHandles();
-              this.element.push(ft);
+              var softgoal;
+              var drawnSoftgoal;
+              var m = "M ";
+              var curves = " c 0,108 -47,43 -100,39 -47,0 -100,65 -100,-39 0,-108 47,-43 100,-43 47,0 100,-65, 100,43";
+
+              x += 100; // Center the pointer
+              drawnSoftgoal = m.concat(x.toString(), ",", y.toString(), curves);
+              softgoal = this.paper.path(drawnSoftgoal).attr(attr);
+              this.pushElement(softgoal);
               break;
             case "goal":
-              var goal = this.paper.rect(x, y, 200, 100, 20).attr(attr);
-              var ft = this.paper.freeTransform(goal);
-              ft.hideHandles();
-              this.element.push(ft);
+              var goal;
+
+              x -= 100; // Center the pointer
+              y -= 50;
+              goal = this.paper.rect(x, y, 200, 100, 20).attr(attr);
+              this.pushElement(goal);
               break;
             case "task":
-              var task = this.paper.path(
-                      "m 160.49646,324.24178 39.50504,-90.20654 202.64622,1e-5 49.01551,80.28382 -50.47866,86.59827 -193.86732,-0.90206 z")
-                      .attr(attr);
-              var ft = this.paper.freeTransform(task);
-              ft.hideHandles();
-              this.element.push(ft);
+              var task;
+              var drawnTask;
+              var m = "m ";
+              var moves = " 28,-57 143,0 28,57 -28,57, -143,0 z"; 
+
+              x -= 100; // Center the pointer
+              drawnTask = m.concat(x.toString(), ",",  y.toString(), moves);
+              task = this.paper.path(drawnTask).attr(attr);
+ 
+              this.pushElement(task);
               break;
             case "resource":
-              var resource = this.paper.rect(x, y, 200, 100).attr(attr);
-              var ft = this.paper.freeTransform(resource);
-              ft.hideHandles();
-              this.element.push(ft);
+              var resource;
+
+              x -= 100; // Horizontally center the pointer
+              y -= 50;  // Vertically center the pointer
+              resource = this.paper.rect(x, y, 200, 100).attr(attr);
+              this.pushElement(resource);
               break;
             case "belief":
               var belief = this.paper.ellipse(x, y, 100, 50).attr(attr);
-              var ft = this.paper.freeTransform(belief);
-              ft.hideHandles();
-              this.element.push(ft);
+
+              this.pushElement(belief);
               break;
         }
+    },
+    pushElement: function(element) {
+        var freeTransform = this.paper.freeTransform(element);
+
+        freeTransform.hideHandles();
+        this.element.push(freeTransform);
     }
 }
