@@ -9,22 +9,9 @@
   <link rel="stylesheet"
     href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
   />
-  <script src=
-          "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
-  </script>
-  <script src=
-    "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js">
-  </script>
-  <script
-    src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
-  </script>
-  <script type="text/javascript" src="src/js/raphael.js"></script>
-  <script type="text/javascript" src="src/js/raphael.free_transform.js">
-  </script>
-  <script type="text/javascript" src="src/js/element.js"></script>
 </head>
-<body onload="canvas.makeCanvas()">
-  <div id="canvas" onclick="canvas.canvasClick()"></div>
+<body onload="CANVAS.makeCanvas()">
+  <div id="canvas" onclick="CANVAS.canvasClick()"></div>
   <div id="palette">
     <button class="palette_heading" type="button" class="btn btn-info"
     data-toggle="collapse" data-target="#palette_top">
@@ -32,11 +19,11 @@
       Palette
     </button>
     <div id="palette_top" class="collapse">
-      <div id="select" class="option" onclick="palette.highlight()">
+      <div id="select" class="option" onclick="PALETTE.highlight()">
         <img src="img/arrow16.gif" "Mouse Pointer" />
         Select
       </div>
-      <div id="comment" class="option" onclick="palette.highlight()">
+      <div id="comment" class="option" onclick="PALETTE.highlight()">
         <img src="img/Comment16.gif" alt="Comment" />
         Comment
       </div>
@@ -47,19 +34,19 @@
       Links
     </button>
     <div id="links" class="collapse">
-      <div id="decomposition" class="option" onclick="palette.highlight()">
+      <div id="decomposition" class="option" onclick="PALETTE.highlight()">
         <img src="img/Decomposition16.gif" alt="Decomposition" />
         Decomposition
       </div>
-      <div id="contribution" class="option" onclick="palette.highlight()">
+      <div id="contribution" class="option" onclick="PALETTE.highlight()">
         <img src="img/Contribution16.gif" alt="Contribution" />
         Contribution
       </div>
-      <div id="dependency" class="option" onclick="palette.highlight()">
+      <div id="dependency" class="option" onclick="PALETTE.highlight()">
         <img src="img/Dependency16.gif" alt="Dependency"/>
         Dependency
       </div>
-      <div id="belief_link" class="option" onclick="palette.highlight()">
+      <div id="belief_link" class="option" onclick="PALETTE.highlight()">
         <img src="img/BeliefLink16.gif" alt="Belief" />
         Belief Link
       </div>
@@ -70,7 +57,7 @@
       Components
     </button>
     <div id="components" class="collapse">
-      <div id="actor" class="option" onclick="palette.highlight()">
+      <div id="actor" class="option" onclick="PALETTE.highlight()">
         <img src="img/GRLActor16.gif" alt="Actor" />
         Actor
       </div>
@@ -81,28 +68,42 @@
       Elements
     </button>
     <div id="elements" class="collapse">
-      <div id="softgoal" class="option" onclick="palette.highlight()">
+      <div id="softgoal" class="option" onclick="PALETTE.highlight()">
         <img src="img/Softgoal16.gif" alt="Softgoal" />
         Softgoal
       </div>
-      <div id="goal" class="option" onclick="palette.highlight()">
+      <div id="goal" class="option" onclick="PALETTE.highlight()">
         <img src="img/Goal16.gif" alt="Goal" />
         Goal
       </div>
-      <div id="task" class="option" onclick="palette.highlight()">
+      <div id="task" class="option" onclick="PALETTE.highlight()">
         <img src="img/Task16.gif" alt="Task" />
         Task
       </div>
-      <div id="resource" class="option" onclick="palette.highlight()">
+      <div id="resource" class="option" onclick="PALETTE.highlight()">
         <img src="img/Resource16.gif" alt="Resource" />
         Resource
       </div>
-      <div id="belief" class="option" onclick="palette.highlight()">
+      <div id="belief" class="option" onclick="PALETTE.highlight()">
         <img src="img/Belief16.gif" alt="Belief" />
         Belief
       </div>
     </div>
   </div>
   <p id=dummy></p>
+  <script src=
+          "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
+  </script>
+  <script src=
+    "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js">
+  </script>
+  <script
+    src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+  </script>
+  <script  src="src/js/raphael.js"></script>
+  <script  src="src/js/raphael.free_transform.js">
+  </script>
+  <script src="src/js/canvas.js"></script>
+  <script src="src/js/palette.js"></script>
 </body>
 </html>
