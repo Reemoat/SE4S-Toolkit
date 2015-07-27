@@ -29,3 +29,6 @@ div.option {
 div#select {
     background-color: #AAFFFF;
 }
+canvas#myCanvas {
+    display: none;
+}

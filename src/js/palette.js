@@ -16,5 +16,10 @@ var PALETTE = {
         } else {
             CANVAS.disableTransform();
         }
+
+        // Make the shapes linkable
+        if (this.current === "contribution") {
+            CANVAS.makeLinkable();
+        }
     }
 }

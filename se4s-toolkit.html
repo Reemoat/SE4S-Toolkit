@@ -90,7 +90,10 @@
       </div>
     </div>
   </div>
-  <p id=dummy></p>
+  <button type="button" onclick="CANVAS.exportXml()">Export XML</button>
+  <button type="button" onclick="CANVAS.exportImage()">Export Image</button>
+  <img id="export"></img>
+  <canvas id="myCanvas"></canvas>
   <script src=
           "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
   </script>
@@ -103,6 +106,11 @@
   <script  src="src/js/raphael.js"></script>
   <script  src="src/js/raphael.free_transform.js">
   </script>
+  <script src="src/js/raphael.inline_text_editing.js"></script>
+  <script src="src/js/raphael.export.js"></script>
+  <script src="src/js/rgbcolor.js"></script>
+  <script src="src/js/StackBlur.js"></script>
+  <script src="src/js/canvg.js"></script>
   <script src="src/js/canvas.js"></script>
   <script src="src/js/palette.js"></script>
 </body>
