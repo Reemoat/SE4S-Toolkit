@@ -11,7 +11,7 @@
   />
 </head>
 <body onload="CANVAS.makeCanvas()">
-  <div id="canvas" onclick="CANVAS.canvasClick()"></div>
+  <div id="canvas" onclick="PALETTE.current.canvasClick()"></div>
   <div id="palette">
     <button class="palette_heading" type="button" class="btn btn-info"
     data-toggle="collapse" data-target="#palette_top">
@@ -19,7 +19,7 @@
       Palette
     </button>
     <div id="palette_top" class="collapse">
-      <div id="select" class="option" onclick="PALETTE.highlight()">
+      <div id="select" class="option" onclick="PALETTE.highlightSelect()">
         <img src="img/arrow16.gif" "Mouse Pointer" />
         Select
       </div>
@@ -38,7 +38,8 @@
         <img src="img/Decomposition16.gif" alt="Decomposition" />
         Decomposition
       </div>
-      <div id="contribution" class="option" onclick="PALETTE.highlight()">
+      <div id="contribution" class="option"
+           onclick="PALETTE.highlightContribution()">
         <img src="img/Contribution16.gif" alt="Contribution" />
         Contribution
       </div>
@@ -68,30 +69,30 @@
       Elements
     </button>
     <div id="elements" class="collapse">
-      <div id="softgoal" class="option" onclick="PALETTE.highlight()">
+      <div id="softgoal" class="option" onclick="PALETTE.highlightSoftgoal()">
         <img src="img/Softgoal16.gif" alt="Softgoal" />
         Softgoal
       </div>
-      <div id="goal" class="option" onclick="PALETTE.highlight()">
+      <div id="goal" class="option" onclick="PALETTE.highlightGoal()">
         <img src="img/Goal16.gif" alt="Goal" />
         Goal
       </div>
-      <div id="task" class="option" onclick="PALETTE.highlight()">
+      <div id="task" class="option" onclick="PALETTE.highlightTask()">
         <img src="img/Task16.gif" alt="Task" />
         Task
       </div>
-      <div id="resource" class="option" onclick="PALETTE.highlight()">
+      <div id="resource" class="option" onclick="PALETTE.highlightResource()">
         <img src="img/Resource16.gif" alt="Resource" />
         Resource
       </div>
-      <div id="belief" class="option" onclick="PALETTE.highlight()">
+      <div id="belief" class="option" onclick="PALETTE.highlightBelief()">
         <img src="img/Belief16.gif" alt="Belief" />
         Belief
       </div>
     </div>
   </div>
-  <button type="button" onclick="CANVAS.exportXml()">Export XML</button>
-  <button type="button" onclick="CANVAS.exportImage()">Export Image</button>
+  <button type="button" onclick="EXPORTER.exportXml()">Export XML</button>
+  <button type="button" onclick="EXPORTER.exportImage()">Export Image</button>
   <img id="export"></img>
   <canvas id="myCanvas"></canvas>
   <script src=
@@ -112,6 +113,14 @@
   <script src="src/js/StackBlur.js"></script>
   <script src="src/js/canvg.js"></script>
   <script src="src/js/canvas.js"></script>
+  <script src="src/js/select.js"></script>
+  <script src="src/js/contribution_factory.js"></script>
+  <script src="src/js/softgoal_factory.js"></script>
+  <script src="src/js/goal_factory.js"></script>
+  <script src="src/js/task_factory.js"></script>
+  <script src="src/js/resource_factory.js"></script>
+  <script src="src/js/belief_factory.js"></script>
   <script src="src/js/palette.js"></script>
+  <script src="src/js/exporter.js"></script>
 </body>
 </html>

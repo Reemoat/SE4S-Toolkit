@@ -4,8 +4,15 @@ var CANVAS = {
     element: [], // An array that records the grl elements on the canvas
     connection: [], // A collection of the canvas' connections
     src: null, // The source of an impending connection
-    dst: null, // The destination of an impending connection
     segment: null, // The segment from the source when making a link
+    makeCanvas: function () {
+        var container = document.getElementById("canvas");
+
+        this.paper = Raphael(container);
+        this.paper.setSize("100%", "100%");
+        this.overlay = this.paper.rect(0, 0, this.paper.width,
+                this.paper.height).attr({fill: "#ffffff"});
+    },
     enableTransform: function () {
         var textElement; // An object containing an element and its text
 
@@ -24,83 +31,16 @@ var CANVAS = {
             textElement.ft.hideHandles();
         }
     },
-    makeCanvas: function () {
-        var container = document.getElementById("canvas");
-
-        this.paper = Raphael(container);
-        this.paper.setSize("100%", "100%");
-        this.overlay = this.paper.rect(0, 0, this.paper.width,
-                this.paper.height).attr({fill: "#ffffff"});
-    },
     makeLinkable: function () {
-        // Make every element nontransformable
+        // Make every element linkable
         for (var i = 0; i < this.element.length; i++) {
             textElement = this.element[i].ft.subject.click(this.drawLink);
         }
     },
-    canvasClick: function () {
-        var x = event.clientX,
-            y = event.clientY,
-            centerx, // Horizontally enter the mouse pointer
-            centery, // Vertically center the mouse pointer
-            attr = {"stroke-width": 3, fill: "#ffffff"},
-            shape, // The shape of a GRL element
-            pathString, // A string that describes a path to form a shape
-            moves, // The moves of a path
-            initial; // The first part of a path string
-
-        // Check for the current PALETTE selection
-        switch(PALETTE.current) {
-        case "select":
-            break;
-        case "comment":
-            break;
-        case "decomposition":
-            break;
-        case "contribution":
-            this.makeLinkable();
-            break;
-        case "dependency":
-            break;
-        case "belief_link":
-            break;
-        case "actor":
-            break;
-        case "softgoal":
-            initial = "M ";
-            moves = " c 0,108 -47,43 -100,39 -47,0 -100,65 -100,-39 \
-                         0,-108 47,-43 100,-43 47,0 100,-65, 100,43";
-            centerx = x + 100;
-            pathString = initial.concat(centerx.toString(), ",", y.toString(),
-                                        moves);
-            shape = this.paper.path(pathString).attr(attr);
-            this.pushElement(shape, x, y);
-            break;
-        case "goal":
-            centerx = x - 100; // Horizontally center the pointer
-            centery = y - 50;  // Vertically center the pointer
-            shape = this.paper.rect(centerx, centery, 200, 100, 20).attr(attr);
-            this.pushElement(shape, x, y);
-            break;
-        case "task":
-            initial = "m ";
-            moves = " 28,-57 143,0 28,57 -28,57, -143,0 z"; 
-            centerx = x - 100 // Center the pointer
-            pathString = initial.concat(
-                    centerx.toString(), ",",  y.toString(), moves);
-            shape = this.paper.path(pathString).attr(attr);
-            this.pushElement(shape, x, y);
-            break;
-        case "resource":
-            centerx = x - 100; // Horizontally center the pointer
-            centery = y - 50;  // Vertically center the pointer
-            shape = this.paper.rect(centerx, centery, 200, 100).attr(attr);
-            this.pushElement(shape, x, y);
-            break;
-        case "belief":
-            shape = this.paper.ellipse(x, y, 100, 50).attr(attr);
-            this.pushElement(shape, x, y);
-            break;
+    makeUnlinkable: function () {
+        // Make every element unlinkable
+        for (var i = 0; i < this.element.length; i++) {
+            textElement = this.element[i].ft.subject.unclick(this.drawLink);
         }
     },
     moveText: function (ft) {
@@ -117,25 +57,89 @@ var CANVAS = {
             }
         }
     },
+    getNearestX: function (x, shape) {
+        // Find the closest coordinate
+        if (x <= shape.x) {
+            return shape.x;
+        } else if (x <= shape.x2) {
+            return x;
+        } else {
+            return shape.x2;
+        }
+    },
+    getNearestY: function (y, shape) {
+        // Find the closest coordinate
+        if (y <= shape.y) {
+            return shape.y;
+        } else if (y <= shape.y2) {
+            return y;
+        } else {
+            return shape.y2;
+        }
+    },
     makeSegment: function () {
-        var path = "M "; // Path from the source to the mouse
+        var path = "M ", // Path from the source to the mouse
             x = event.clientX, // x-coordinate of the mouse
-            y = event.clientY; // y-coordinate of the mouse
+            y = event.clientY, // y-coordinate of the mouse
+            x2 = this.getNearestX(x, this.src), // x-coordinate of the other end
+            y2 = this.getNearestY(y, this.src); // y-coordinate of the other end
 
-        path = path.concat(this.src.x.toString(), ",", this.src.y.toString(),
-                           " ", x.toString(), ",", y.toString());
+        path = path.concat(x2.toString(), ",", y2.toString(), " ", x.toString(),
+                           ",", y.toString());
         this.segment = this.paper.path(path);
     },
     moveSegment: function () {
         CANVAS.segment.remove();
         CANVAS.makeSegment();
     },
+    connect: function (dst) {
+        var x1, // The src's connection pt
+            y1, // The src's connection pt
+            x2, // The dst's connection pt
+            y2, // The dst's connection pt
+            path = "M "; // The path string
+
+        // Check if the shapes have overlapping horizontalcoordinates
+        if (this.src.x > dst.x && this.src.x < dst.x2
+            || this.src.x2 > dst.x && this.src.x2 < dst.x2) {
+            x1 = (Math.max(this.src.x, dst.x) + Math.min(this.src.x2, dst.x2))
+                 / 2;
+        } else if (this.src.x2 < dst.x) { // src is left of dst
+            x1 = this.src.x2;
+        } else { // src is right of dst
+            x1 = this.src.x;
+        }
+
+        // Check if the shapes have overlapping vertical coordinates
+        if (this.src.y > dst.y && this.src.y < dst.y2
+            || this.src.y2 > dst.y && this.src.y2 < dst.y2) {
+            y1 = (Math.max(this.src.y, dst.y) + Math.min(this.src.y2, dst.y2))
+                 / 2;
+        } else if (this.src.y2 < dst.y) { // src is above dst
+            y1 = this.src.y2;
+        } else { // src is below dst
+            y1 = this.src.y;
+        }
+
+        x2 = this.getNearestX(x1, dst);
+        y2 = this.getNearestY(y1, dst);
+
+        path = path.concat(x1.toString(), ",", y1.toString(), " ",
+                           x2.toString(), ",", y2.toString());
+        PALETTE.current.makeLink(path);
+    },
     drawLink: function () {
         // Check that a source has not already been established
-        if (PALETTE.current === "contribution" && CANVAS.src === null) {
+        if (PALETTE.current === CONTRIBUTION_FACTORY && CANVAS.src === null) {
             CANVAS.src = this.getBBox();
             CANVAS.makeSegment();
             CANVAS.overlay.mousemove(CANVAS.moveSegment);
+        } else if (CANVAS.src != null && CANVAS.src != this.getBBox()) {
+            CANVAS.connect(this.getBBox());
+            CANVAS.src = null;
+            CANVAS.segment.remove();
+            CANVAS.makeUnlinkable();
+            CANVAS.overlay.unmousemove(CANVAS.moveSegment);
         }
     },
     editText: function () {
@@ -150,9 +154,9 @@ var CANVAS = {
         //var chars = Math.max(strarray);
         //console.log(text.attrs["font-size"]);
     },
-    pushElement: function (grlelement, x, y) {
+    pushElement: function (grlelement, x, y, str) {
         var textElement, // An encapsulation of text and an element
-            text = this.paper.text(x, y, PALETTE.current).attr(
+            text = this.paper.text(x, y, str).attr(
                 {font: "15px Georgia"}),
             freeTransform = this.paper.freeTransform(grlelement,
                 {rotate: false}, this.moveText);
@@ -160,34 +164,7 @@ var CANVAS = {
         CANVAS.paper.inlineTextEditing(text);
         text.click(this.editText);
         freeTransform.hideHandles();
-        //grlelement.click(this.drawLink);
         textElement = {ft: freeTransform, text: text};
         this.element.push(textElement);
     },
-    exportXml: function () {
-        var svgString = CANVAS.paper.toSVG(), // The svg generated by Raphael
-            a = document.createElement('a'),
-            blob; // A variable for the blob API
-
-        a.download = 'model.svg';
-        a.type = 'image/svg+xml';
-        blob = new Blob([svgString], {"type": "image/svg+xml"});
-        a.href = (window.URL || webkitURL).createObjectURL(blob);
-        a.click();
-    },
-    exportImage: function () {
-        var svgString = CANVAS.paper.toSVG(); // The svg generated by Raphael
-        var dataURL;
-        var myCanvas;
-        var a = document.createElement('a');
-
-        canvg('myCanvas', svgString);
-        myCanvas = document.getElementById("myCanvas");
-        dataURL = myCanvas.toDataURL("image/png");
-        //document.getElementById("export").src = dataURL;
-        a.download = 'goals.png';
-        a.type = 'image/png';
-        a.href = dataURL;
-        a.click();
-    }
 }

@@ -1,0 +1,4 @@
+var SELECT = {
+    canvasClick: function () {
+    }
+}
