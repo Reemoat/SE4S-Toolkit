@@ -9,41 +9,62 @@ var PALETTE = {
 
         event.target.style.backgroundColor = "#AAFFFF";
     },
-    highlightElement: function() {
-        CANVAS.disableTransform();
-        CANVAS.makeUnlinkable();
-        this.highlight();
-    },
     highlightSelect: function () {
         this.current = SELECT;
         this.highlight();
         CANVAS.makeUnlinkable
         CANVAS.enableTransform();
     },
-    highlightContribution: function () { 
-        this.current = CONTRIBUTION_FACTORY;
-        CANVAS.makeLinkable();
+    highlightLink: function () {
+        // Only make linkable if not already linkable
+        if (this.current != DECOMPOSITION_FACTORY && this.current
+                != CONTRIBUTION_FACTORY && this.current != DEPENDENCY_FACTORY
+                && this.current != BELIEF_LINK_FACTORY) {
+            CANVAS.makeLinkable();
+        }
+
         CANVAS.disableTransform();
         this.highlight();
     },
+    highlightDecomposition: function () {
+        this.highlightLink();
+        this.current = DECOMPOSITION_FACTORY;
+    },
+    highlightContribution: function () { 
+        this.highlightLink();
+        this.current = CONTRIBUTION_FACTORY;
+    },
+    highlightDependency: function () { 
+        this.highlightLink();
+        this.current = DEPENDENCY_FACTORY;
+    },
+    highlightBeliefLink: function () { 
+        this.highlightLink();
+        this.current = BELIEF_LINK_FACTORY;
+    },
+    highlightElement: function() {
+        CANVAS.disableTransform();
+        CANVAS.makeUnlinkable();
+        this.highlight();
+    },
     highlightSoftgoal: function () {
-        this.current = SOFTGOAL_FACTORY;
         this.highlightElement();
+        this.current = SOFTGOAL_FACTORY;
     },
     highlightGoal: function () {
-        this.current = GOAL_FACTORY;
         this.highlightElement();
+        this.current = GOAL_FACTORY;
     },
     highlightTask: function () {
-        this.current = TASK_FACTORY;
         this.highlightElement();
+        this.current = TASK_FACTORY;
     },
     highlightResource: function () {
-        this.current = RESOURCE_FACTORY;
         this.highlightElement();
+        this.current = RESOURCE_FACTORY;
     },
     highlightBelief: function () {
-        this.current = BELIEF_FACTORY;
         this.highlightElement();
+        this.current = BELIEF_FACTORY;
     }
 }

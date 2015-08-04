@@ -126,11 +126,14 @@ var CANVAS = {
 
         path = path.concat(x1.toString(), ",", y1.toString(), " ",
                            x2.toString(), ",", y2.toString());
-        PALETTE.current.makeLink(path);
+        PALETTE.current.makeLink(path, x1, y1, x2, y2);
     },
     drawLink: function () {
         // Check that a source has not already been established
-        if (PALETTE.current === CONTRIBUTION_FACTORY && CANVAS.src === null) {
+        if ((PALETTE.current === DECOMPOSITION_FACTORY || PALETTE.current
+             === CONTRIBUTION_FACTORY || PALETTE.current
+             === DEPENDENCY_FACTORY || PALETTE.current === BELIEF_LINK_FACTORY) 
+             && CANVAS.src === null) {
             CANVAS.src = this.getBBox();
             CANVAS.makeSegment();
             CANVAS.overlay.mousemove(CANVAS.moveSegment);
@@ -138,7 +141,6 @@ var CANVAS = {
             CANVAS.connect(this.getBBox());
             CANVAS.src = null;
             CANVAS.segment.remove();
-            CANVAS.makeUnlinkable();
             CANVAS.overlay.unmousemove(CANVAS.moveSegment);
         }
     },
@@ -156,8 +158,10 @@ var CANVAS = {
     },
     pushElement: function (grlelement, x, y, str) {
         var textElement, // An encapsulation of text and an element
+            // Need both font and font-family/font-size for proper export
             text = this.paper.text(x, y, str).attr(
-                {font: "15px Georgia"}),
+                {font: "15px Georgia", "font-family": "Georgia", "font-size":
+                 "15px"}),
             freeTransform = this.paper.freeTransform(grlelement,
                 {rotate: false}, this.moveText);
 

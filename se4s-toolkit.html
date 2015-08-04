@@ -34,7 +34,8 @@
       Links
     </button>
     <div id="links" class="collapse">
-      <div id="decomposition" class="option" onclick="PALETTE.highlight()">
+      <div id="decomposition" class="option"
+        onclick="PALETTE.highlightDecomposition()">
         <img src="img/Decomposition16.gif" alt="Decomposition" />
         Decomposition
       </div>
@@ -43,11 +44,13 @@
         <img src="img/Contribution16.gif" alt="Contribution" />
         Contribution
       </div>
-      <div id="dependency" class="option" onclick="PALETTE.highlight()">
+      <div id="dependency" class="option"
+        onclick="PALETTE.highlightDependency()">
         <img src="img/Dependency16.gif" alt="Dependency"/>
         Dependency
       </div>
-      <div id="belief_link" class="option" onclick="PALETTE.highlight()">
+      <div id="belief_link" class="option"
+        onclick="PALETTE.highlightBeliefLink()">
         <img src="img/BeliefLink16.gif" alt="Belief" />
         Belief Link
       </div>
@@ -92,7 +95,8 @@
     </div>
   </div>
   <button type="button" onclick="EXPORTER.exportXml()">Export XML</button>
-  <button type="button" onclick="EXPORTER.exportImage()">Export Image</button>
+  <button type="button" onclick="EXPORTER.exportPng()">Export png</button>
+  <button type="button" onclick="EXPORTER.exportPdf()">Export pdf</button>
   <img id="export"></img>
   <canvas id="myCanvas"></canvas>
   <script src=
@@ -114,12 +118,15 @@
   <script src="src/js/canvg.js"></script>
   <script src="src/js/canvas.js"></script>
   <script src="src/js/select.js"></script>
-  <script src="src/js/contribution_factory.js"></script>
-  <script src="src/js/softgoal_factory.js"></script>
-  <script src="src/js/goal_factory.js"></script>
-  <script src="src/js/task_factory.js"></script>
-  <script src="src/js/resource_factory.js"></script>
-  <script src="src/js/belief_factory.js"></script>
+  <script src="src/js/link_factories/decomposition_factory.js"></script>
+  <script src="src/js/link_factories/contribution_factory.js"></script>
+  <script src="src/js/link_factories/dependency_factory.js"></script>
+  <script src="src/js/link_factories/belief_link_factory.js"></script>
+  <script src="src/js/element_factories/softgoal_factory.js"></script>
+  <script src="src/js/element_factories/goal_factory.js"></script>
+  <script src="src/js/element_factories/task_factory.js"></script>
+  <script src="src/js/element_factories/resource_factory.js"></script>
+  <script src="src/js/element_factories/belief_factory.js"></script>
   <script src="src/js/palette.js"></script>
   <script src="src/js/exporter.js"></script>
 </body>
