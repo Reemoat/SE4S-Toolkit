@@ -20,7 +20,7 @@ var PALETTE = {
     highlightSelect: function () {
         PALETTE.current = SELECT;
         this.highlight();
-        CONTROL.makeUnsegmentable
+        CONTROL.makeUnsegmentable();
         CONTROL.enableTransform();
     },
 
