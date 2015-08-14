@@ -34,8 +34,8 @@ var CONTRIBUTION_FACTORY = {
 
         rotate = rotate.concat(theta.toString(), ",", x2.toString(), ",",
                                      y2.toString());
-        CANVAS.paper.path(path).attr({"stroke-width": 5});
-        arrowhead = CANVAS.paper.path(arrowhead).attr({"stroke-width": 5,
+        PAPER.path(path).attr({"stroke-width": 5});
+        arrowhead = PAPER.path(arrowhead).attr({"stroke-width": 5,
                 "stroke-linecap": "round"});
         arrowhead.transform(rotate);
     }

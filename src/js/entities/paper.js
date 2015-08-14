@@ -1,0 +1,1 @@
+var PAPER = null; // The Raphael canvas that creates the elements

@@ -8,7 +8,7 @@ var TASK_FACTORY = {
             path = path.concat(centerx.toString(), ",",
                     event.clientY.toString(),
                     " 28,-57 143,0 28,57 -28,57, -143,0 z");
-            shape = CANVAS.paper.path(path).attr({"stroke-width": 3,
+            shape = PAPER.path(path).attr({"stroke-width": 3,
                                                   fill: "#ffffff"});
             CANVAS.pushElement(shape, event.clientX, event.clientY, str);
     }
