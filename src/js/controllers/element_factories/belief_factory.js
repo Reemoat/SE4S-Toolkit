@@ -1,9 +1,11 @@
+// This object creates belief elements
 var BELIEF_FACTORY = {
+    /**
+     * Create a belief shape and its text, then send it to the canvas
+     */
     canvasClick: function () {
-        var shape = PAPER.ellipse(event.clientX, event.clientY, 100, 50)
-                    .attr({"stroke-width": 3, fill: "#ffffff"}),
-            text = "belief"; // The belief's initial text contents
-        
-        CANVAS.pushElement(shape, event.clientX, event.clientY, text);
+        CONTROL.pushElement(PAPER.ellipse(event.clientX, event.clientY, 100, 50)
+            .attr({"stroke-width": 3, fill: "#ffffff"}), event.clientX,
+            event.clientY, "belief");
     }
 }

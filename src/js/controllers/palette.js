@@ -1,3 +1,4 @@
+// A control object for the palette
 var PALETTE = {
     current: SELECT, // The currently highlighted paeltte option
     options: document.getElementsByClassName("option"), // Palette options
@@ -18,10 +19,19 @@ var PALETTE = {
      * Highlight Select and enable transformations
      */
     highlightSelect: function () {
-        PALETTE.current = SELECT;
+        this.current = SELECT;
         this.highlight();
         CONTROL.makeUnsegmentable();
         CONTROL.enableTransform();
+    },
+
+    /**
+     * Check if the current palette selection has made the elements linkable
+     */
+    isLinkable: function () {
+        return this.current != DECOMPOSITION_FACTORY && this.current
+               != CONTRIBUTION_FACTORY && this.current != DEPENDENCY_FACTORY
+               && this.current != BELIEF_LINK_FACTORY;
     },
 
     /**
@@ -29,9 +39,7 @@ var PALETTE = {
      */
     highlightLink: function () {
         // Only make linkable if not already linkable
-        if (this.current != DECOMPOSITION_FACTORY && this.current
-                != CONTRIBUTION_FACTORY && this.current != DEPENDENCY_FACTORY
-                && this.current != BELIEF_LINK_FACTORY) {
+        if (this.isLinkable()) {
             CONTROL.makeSegmentable();
         }
 

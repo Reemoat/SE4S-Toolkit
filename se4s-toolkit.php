@@ -126,8 +126,8 @@
   echo '<script src="src/js/libraries/rgbcolor.js"></script>';
   echo '<script src="src/js/libraries/StackBlur.js"></script>';
   echo '<script src="src/js/libraries/canvg.js"></script>';
-  echo '<script src="src/js/entities/paper.js"></script>';
   echo '<script src="src/js/entities/segment.js"></script>';
+  echo '<script src="src/js/controllers/paper.js"></script>';
   echo '<script src="src/js/controllers/select.js"></script>';
   echo '<script src="src/js/controllers/link_factories/'
     . 'decomposition_factory.js"></script>';
@@ -149,8 +149,8 @@
     . '</script>';
   echo '<script src="src/js/controllers/exporter.js"></script>';
   echo '<script src="src/js/controllers/control.js"></script>';
-  echo '<script src="src/js/boundaries/canvas.js"></script>';
-  echo '<script src="src/js/boundaries/palette.js"></script>';
+  echo '<script src="src/js/controllers/palette.js"></script>';
+  echo '<script src="src/js/onload.js"></script>';
   ?>
 </body>
 </html>

@@ -1,4 +1,5 @@
-var SEGMENT = {   // The segment extending from the source when making a link
+// The segment extending from the source when making a link
+var SEGMENT = {
     path: null,   // The path from the source to the mouse pointer
     source: null, // The source element of the segment
             

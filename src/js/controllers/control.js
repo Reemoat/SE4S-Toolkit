@@ -1,21 +1,38 @@
-var CONTROL = {    
+// This object thiss most of the program's flow
+var CONTROL = {
+    element: [],   // An array of objects that bind shapes and text together
+    overlay: null, // Rectangle placed on top of PAPER for handling mouse moves
+    
     /**
-     * Allow the user to drag and scale canvas elements
+     * Prepare the text for raphael and editing
+     */
+    prepareText: function(str, x, y) {
+        // Both font and font-family are necessary for the export library
+        var text = PAPER.text(x, y, str).attr({font: "15px Georgia",
+                   "font-family": "Georgia", "font-size": "15px"});
+
+        PAPER.inlineTextEditing(text);
+        text.click(this.editText);
+        return text;
+    },
+    
+    /**
+     * Allow the user to drag and scale the elements
      */
     enableTransform: function () {
         // Make every element transformable
-        for (var i = 0; i < CANVAS.element.length; i++) {
-            CANVAS.element[i].ft.showHandles();
+        for (var i = 0; i < this.element.length; i++) {
+            this.element[i].ft.showHandles();
         }
     },
         
     /**
-     * Prevent the user from dragging and scaling canvas elements
+     * Prevent the user from dragging and scaling the elements
      */
     disableTransform: function () {
         // Make every element nontransformable
-        for (var i = 0; i < CANVAS.element.length; i++) {
-            CANVAS.element[i].ft.hideHandles();
+        for (var i = 0; i < this.element.length; i++) {
+            this.element[i].ft.hideHandles();
         }
     },
     
@@ -24,8 +41,8 @@ var CONTROL = {
      */
     makeSegmentable: function () {
         // Make every element able to generate a segment
-        for (var i = 0; i < CANVAS.element.length; i++) {
-            CANVAS.element[i].ft.subject.click(this.drawSegment);
+        for (var i = 0; i < this.element.length; i++) {
+            this.element[i].ft.subject.click(this.drawSegment);
         }
     },
     
@@ -34,8 +51,8 @@ var CONTROL = {
      */
     makeUnsegmentable: function () {
         // Make every element unable to generate a new segment
-        for (var i = 0; i < CANVAS.element.length; i++) {
-            CANVAS.element[i].ft.subject.unclick(this.drawSegment);
+        for (var i = 0; i < this.element.length; i++) {
+            this.element[i].ft.subject.unclick(this.drawSegment);
         }
     },
     
@@ -44,8 +61,8 @@ var CONTROL = {
      */
     makeConnectable: function () {
         // Make every element connectable
-        for (var i = 0; i < CANVAS.element.length; i++) {
-            CANVAS.element[i].ft.subject.click(this.drawConnection);
+        for (var i = 0; i < this.element.length; i++) {
+            this.element[i].ft.subject.click(this.drawConnection);
         }
     },
     
@@ -54,24 +71,24 @@ var CONTROL = {
      */
     makeUnconnectable: function () {
         // Make every element unconnectable
-        for (var i = 0; i < CANVAS.element.length; i++) {
-            CANVAS.element[i].ft.subject.unclick(this.drawConnection);
+        for (var i = 0; i < this.element.length; i++) {
+            this.element[i].ft.subject.unclick(this.drawConnection);
         }
     },
     
     /**
      * This function makes the text move with its corresponding element
      */
-    moveText: function (ft) {
+    moveText: function (freeTransform) {
         var translate = "t"; // String that dictates the translation
 
         // Find the appropriate element
-        for (var i = 0; i < CANVAS.element.length; i++) {
-            if (CANVAS.element[i].ft === ft) {
+        for (var i = 0; i < CONTROL.element.length; i++) {
+            if (CONTROL.element[i].ft === freeTransform) {
                 translate = translate.concat(
-                        ft.attrs.translate.x.toString(), ",",
-                        ft.attrs.translate.y.toString());
-                CANVAS.element[i].text.transform(translate);
+                    freeTransform.attrs.translate.x.toString(), ",",
+                    freeTransform.attrs.translate.y.toString());
+                CONTROL.element[i].text.transform(translate);
                 return;
             }
         }
@@ -179,7 +196,7 @@ var CONTROL = {
     drawSegment: function () {
             SEGMENT.source = this.getBBox();
             SEGMENT.makeSegment();
-            CANVAS.overlay.mousemove(CONTROL.moveSegment);
+            CONTROL.overlay.mousemove(CONTROL.moveSegment);
             CONTROL.makeUnsegmentable();
             CONTROL.makeConnectable();
     },
@@ -192,8 +209,16 @@ var CONTROL = {
         SEGMENT.path.remove();
         SEGMENT.path = null;
         SEGMENT.source = null;
-        CANVAS.overlay.unmousemove(CANVAS.moveSegment);
+        CONTROL.overlay.unmousemove(CONTROL.moveSegment);
         CONTROL.makeUnconnectable();
         CONTROL.makeSegmentable();
+    },
+    
+    /**
+     * Add an element to the canvas with text and transform capability
+     */
+    pushElement: function (grlelement, x, y, str) {
+        this.element.push({ft: PAPER.freeTransform(grlelement, {rotate: false},
+            this.moveText).hideHandles(), text: this.prepareText(str, x, y)});
     }
 }
