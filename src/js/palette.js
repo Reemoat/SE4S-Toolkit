@@ -29,9 +29,9 @@ var PALETTE = {
      * Check if the current palette selection has made the elements linkable
      */
     isLinkable: function () {
-        return this.current != DECOMPOSITION_FACTORY && this.current
-               != CONTRIBUTION_FACTORY && this.current != DEPENDENCY_FACTORY
-               && this.current != BELIEF_LINK_FACTORY;
+        return this.current === DECOMPOSITION_FACTORY && this.current
+               === CONTRIBUTION_FACTORY && this.current === DEPENDENCY_FACTORY
+               && this.current === BELIEF_LINK_FACTORY;
     },
 
     /**
@@ -39,7 +39,7 @@ var PALETTE = {
      */
     highlightLink: function () {
         // Only make linkable if not already linkable
-        if (this.isLinkable()) {
+        if (!this.isLinkable()) {
             CONTROL.makeSegmentable();
         }
 

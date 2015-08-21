@@ -126,7 +126,6 @@
   echo '<script src="src/js/libraries/rgbcolor.js"></script>';
   echo '<script src="src/js/libraries/StackBlur.js"></script>';
   echo '<script src="src/js/libraries/canvg.js"></script>';
-  echo '<script src="src/js/entities/segment.js"></script>';
   echo '<script src="src/js/controllers/paper.js"></script>';
   echo '<script src="src/js/controllers/select.js"></script>';
   echo '<script src="src/js/controllers/link_factories/'
