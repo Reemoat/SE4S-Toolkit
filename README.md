@@ -17,8 +17,8 @@ software. It will include tools for:
 The user must highlight an option in the palette and then use that palette
 option's functionality on the canvas.
 
-The goal model conforms to [GRL](www.cs.toronto.edu/km/GRL). You can find an
-example goal model in the documentation folder.
+The goal model conforms to [GRL](http://www.cs.toronto.edu/km/GRL). You can find
+an example goal model in the documentation folder.
 
 ###### Select
 
@@ -45,8 +45,13 @@ The user may export the goal model to XML, PNG, or PDF.
 ### Libraries
 
 [Canvg](https://github.com/gabelerner/canvg)
+
 [Raphael](raphaeljs.com)
+
 [Raphael.Export](https://github.com/AliasIO/Raphael.Export)
+
 [Raphael.FreeTransform](https://github.com/AliasIO/Raphael.FreeTransform)
+
 [Raphael.InlineTextEditing](https://github.com/marmelab/Raphael.InlineTextEditing)
+
 [StackBlur](https://github.com/flozz/StackBlur)
