@@ -46,7 +46,7 @@ The user may export the goal model to XML, PNG, or PDF.
 
 [Canvg](https://github.com/gabelerner/canvg)
 
-[Raphael](raphaeljs.com)
+[Raphael](http://raphaeljs.com)
 
 [Raphael.Export](https://github.com/AliasIO/Raphael.Export)
 
