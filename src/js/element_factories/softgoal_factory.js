@@ -10,7 +10,7 @@ var SOFTGOAL_FACTORY = {
         path = path.concat(centerx.toString(), ",", event.clientY.toString(),
             " c 0,108 -47,43 -100,39 -47,0 -100,65 -100,-39 0,-108 47,-43 \
             100,-43 47,0 100,-65, 100,43");
-        CONTROL.pushElement(PAPER.path(path).attr({"stroke-width": 3,
+        CANVAS_CONTROL.pushElement(PAPER.path(path).attr({"stroke-width": 3,
             fill: "#ffffff"}), event.clientX, event.clientY, "softgoal");
     }
 }

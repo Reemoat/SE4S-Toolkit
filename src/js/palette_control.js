@@ -1,6 +1,6 @@
 // A control object for the palette
-var PALETTE = {
-    current: SELECT, // The currently highlighted paeltte option
+var PALETTE_CONTROL = {
+    currentSelection: SELECT, // The currently highlighted paeltte option
     options: document.getElementsByClassName("option"), // Palette options
     
     /**
@@ -19,19 +19,20 @@ var PALETTE = {
      * Highlight Select and enable transformations
      */
     highlightSelect: function () {
-        this.current = SELECT;
+        this.currentSelection = SELECT;
         this.highlight();
-        CONTROL.makeUnsegmentable();
-        CONTROL.enableTransform();
+        CANVAS_CONTROL.makeUnsegmentable();
+        CANVAS_CONTROL.enableTransform();
     },
 
     /**
      * Check if the current palette selection has made the elements linkable
      */
     isLinkable: function () {
-        return this.current === DECOMPOSITION_FACTORY && this.current
-               === CONTRIBUTION_FACTORY && this.current === DEPENDENCY_FACTORY
-               && this.current === BELIEF_LINK_FACTORY;
+        return this.currentSelection === DECOMPOSITION_FACTORY
+               && this.currentSelection === CONTRIBUTION_FACTORY
+               && this.currentSelection === DEPENDENCY_FACTORY
+               && this.currentSelection === BELIEF_LINK_FACTORY;
     },
 
     /**
@@ -40,10 +41,10 @@ var PALETTE = {
     highlightLink: function () {
         // Only make linkable if not already linkable
         if (!this.isLinkable()) {
-            CONTROL.makeSegmentable();
+            CANVAS_CONTROL.makeSegmentable();
         }
 
-        CONTROL.disableTransform();
+        CANVAS_CONTROL.disableTransform();
         this.highlight();
     },
 
@@ -52,7 +53,7 @@ var PALETTE = {
      */
     highlightDecomposition: function () {
         this.highlightLink();
-        this.current = DECOMPOSITION_FACTORY;
+        this.currentSelection = DECOMPOSITION_FACTORY;
     },
 
     /**
@@ -60,7 +61,7 @@ var PALETTE = {
      */
     highlightContribution: function () { 
         this.highlightLink();
-        this.current = CONTRIBUTION_FACTORY;
+        this.currentSelection = CONTRIBUTION_FACTORY;
     },
 
     /**
@@ -68,7 +69,7 @@ var PALETTE = {
      */
     highlightDependency: function () { 
         this.highlightLink();
-        this.current = DEPENDENCY_FACTORY;
+        this.currentSelection = DEPENDENCY_FACTORY;
     },
 
     /**
@@ -76,15 +77,15 @@ var PALETTE = {
      */
     highlightBeliefLink: function () { 
         this.highlightLink();
-        this.current = BELIEF_LINK_FACTORY;
+        this.currentSelection = BELIEF_LINK_FACTORY;
     },
 
     /**
      * Disable tranforms, make element unlinkable, and highlight clicked entry
      */
     highlightElement: function() {
-        CONTROL.disableTransform();
-        CONTROL.makeUnsegmentable();
+        CANVAS_CONTROL.disableTransform();
+        CANVAS_CONTROL.makeUnsegmentable();
         this.highlight();
     },
 
@@ -93,7 +94,7 @@ var PALETTE = {
      */
     highlightSoftgoal: function () {
         this.highlightElement();
-        this.current = SOFTGOAL_FACTORY;
+        this.currentSelection = SOFTGOAL_FACTORY;
     },
 
     /**
@@ -101,7 +102,7 @@ var PALETTE = {
      */
     highlightGoal: function () {
         this.highlightElement();
-        this.current = GOAL_FACTORY;
+        this.currentSelection = GOAL_FACTORY;
     },
 
     /**
@@ -109,7 +110,7 @@ var PALETTE = {
      */
     highlightTask: function () {
         this.highlightElement();
-        this.current = TASK_FACTORY;
+        this.currentSelection = TASK_FACTORY;
     },
 
     /**
@@ -117,7 +118,7 @@ var PALETTE = {
      */
     highlightResource: function () {
         this.highlightElement();
-        this.current = RESOURCE_FACTORY;
+        this.currentSelection = RESOURCE_FACTORY;
     },
 
     /**
@@ -125,6 +126,6 @@ var PALETTE = {
      */
     highlightBelief: function () {
         this.highlightElement();
-        this.current = BELIEF_FACTORY;
+        this.currentSelection = BELIEF_FACTORY;
     }
 }

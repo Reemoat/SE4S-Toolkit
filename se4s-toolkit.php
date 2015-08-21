@@ -11,7 +11,8 @@
   />
 </head>
 <body>
-  <div id="canvas" onclick="PALETTE.current.canvasClick()"></div>
+  <div id="canvas" onclick="PALETTE_CONTROL.currentSelection.canvasClick()">
+  </div>
   <div id="palette">
     <button class="palette_heading" type="button" class="btn btn-info"
     data-toggle="collapse" data-target="#palette_top">
@@ -21,11 +22,11 @@
     </button>
     <div id="palette_top" class="collapse">
       <div id="select" class="option"
-           onclick="PALETTE.highlightSelect()">
+           onclick="PALETTE_CONTROL.highlightSelect()">
         <img src="img/arrow16.gif" "Mouse Pointer" />
         Select
       </div>
-      <div id="comment" class="option" onclick="PALETTE.highlight()">
+      <div id="comment" class="option" onclick="PALETTE_CONTROL.highlight()">
         <img src="img/Comment16.gif" alt="Comment" />
         Comment
       </div>
@@ -38,22 +39,22 @@
     </button>
     <div id="links" class="collapse">
       <div id="decomposition" class="option"
-        onclick="PALETTE.highlightDecomposition()">
+        onclick="PALETTE_CONTROL.highlightDecomposition()">
         <img src="img/Decomposition16.gif" alt="Decomposition" />
         Decomposition
       </div>
       <div id="contribution" class="option"
-           onclick="PALETTE.highlightContribution()">
+           onclick="PALETTE_CONTROL.highlightContribution()">
         <img src="img/Contribution16.gif" alt="Contribution" />
         Contribution
       </div>
       <div id="dependency" class="option"
-        onclick="PALETTE.highlightDependency()">
+        onclick="PALETTE_CONTROL.highlightDependency()">
         <img src="img/Dependency16.gif" alt="Dependency"/>
         Dependency
       </div>
       <div id="belief_link" class="option"
-        onclick="PALETTE.highlightBeliefLink()">
+        onclick="PALETTE_CONTROL.highlightBeliefLink()">
         <img src="img/BeliefLink16.gif" alt="Belief" />
         Belief Link
       </div>
@@ -66,7 +67,7 @@
       Components
     </button>
     <div id="components" class="collapse">
-      <div id="actor" class="option" onclick="PALETTE.highlight()">
+      <div id="actor" class="option" onclick="PALETTE_CONTROL.highlight()">
         <img src="img/GRLActor16.gif" alt="Actor" />
         Actor
       </div>
@@ -79,27 +80,27 @@
     </button>
     <div id="elements" class="collapse">
       <div id="softgoal" class="option"
-           onclick="PALETTE.highlightSoftgoal()">
+           onclick="PALETTE_CONTROL.highlightSoftgoal()">
         <img src="img/Softgoal16.gif" alt="Softgoal" />
         Softgoal
       </div>
       <div id="goal" class="option"
-           onclick="PALETTE.highlightGoal()">
+           onclick="PALETTE_CONTROL.highlightGoal()">
         <img src="img/Goal16.gif" alt="Goal" />
         Goal
       </div>
       <div id="task" class="option"
-           onclick="PALETTE.highlightTask()">
+           onclick="PALETTE_CONTROL.highlightTask()">
         <img src="img/Task16.gif" alt="Task" />
         Task
       </div>
       <div id="resource" class="option"
-           onclick="PALETTE.highlightResource()">
+           onclick="PALETTE_CONTROL.highlightResource()">
         <img src="img/Resource16.gif" alt="Resource" />
         Resource
       </div>
       <div id="belief" class="option"
-           onclick="PALETTE.highlightBelief()">
+           onclick="PALETTE_CONTROL.highlightBelief()">
         <img src="img/Belief16.gif" alt="Belief" />
         Belief
       </div>
@@ -138,8 +139,8 @@
   echo '<script src="src/js/element_factories/resource_factory.js"></script>';
   echo '<script src="src/js/element_factories/belief_factory.js"></script>';
   echo '<script src="src/js/exporter.js"></script>';
-  echo '<script src="src/js/control.js"></script>';
-  echo '<script src="src/js/palette.js"></script>';
+  echo '<script src="src/js/canvas_control.js"></script>';
+  echo '<script src="src/js/palette_control.js"></script>';
   echo '<script src="src/js/onload.js"></script>';
   ?>
 </body>

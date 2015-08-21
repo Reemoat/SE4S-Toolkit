@@ -9,7 +9,7 @@ var TASK_FACTORY = {
             
         path = path.concat(centerx.toString(), ",", event.clientY.toString(),
                            " 28,-57 143,0 28,57 -28,57, -143,0 z");
-        CONTROL.pushElement(PAPER.path(path).attr({"stroke-width": 3, fill:
-            "#ffffff"}), event.clientX, event.clientY, "task");
+        CANVAS_CONTROL.pushElement(PAPER.path(path).attr({"stroke-width": 3,
+            fill: "#ffffff"}), event.clientX, event.clientY, "task");
     }
 }

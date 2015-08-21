@@ -1,5 +1,5 @@
 // This object thiss most of the program's flow
-var CONTROL = {
+var CANVAS_CONTROL = {
     element: [],   // An array of objects that bind shapes and text together
     overlay: null, // Rectangle placed on top of PAPER for handling mouse moves
     source: null, // The source element of the segment
@@ -170,7 +170,7 @@ var CONTROL = {
 
         path = path.concat(x1.toString(), ",", y1.toString(), " ",
                            x2.toString(), ",", y2.toString());
-        PALETTE.current.makeLink(path, x1, y1, x2, y2);
+        PALETTE_CONTROL.currentSelection.makeLink(path, x1, y1, x2, y2);
     },
             
     /**
@@ -192,8 +192,8 @@ var CONTROL = {
      * Remove the old segment and draw a new one
      */
     moveSegment: function () {
-        CONTROL.source.path.remove();
-        CONTROL.makeSegment();
+        CANVAS_CONTROL.source.path.remove();
+        CANVAS_CONTROL.makeSegment();
     },
     
     /**
@@ -201,23 +201,23 @@ var CONTROL = {
      * and the user has yet to select a source
      */
     drawSegment: function () {
-        CONTROL.source = this.getBBox();
-        CONTROL.makeSegment();
-        CONTROL.overlay.mousemove(CONTROL.moveSegment);
-        CONTROL.makeUnsegmentable();
-        CONTROL.makeConnectable();
+        CANVAS_CONTROL.source = this.getBBox();
+        CANVAS_CONTROL.makeSegment();
+        CANVAS_CONTROL.overlay.mousemove(CANVAS_CONTROL.moveSegment);
+        CANVAS_CONTROL.makeUnsegmentable();
+        CANVAS_CONTROL.makeConnectable();
     },
         
     /**
      * Draw the connection from source to destination, and reset the segment
      */
     drawConnection: function () {
-        CONTROL.connect(this.getBBox());
-        CONTROL.source.path.remove();
-        CONTROL.source = null;
-        CONTROL.overlay.unmousemove(CONTROL.moveSegment);
-        CONTROL.makeUnconnectable();
-        CONTROL.makeSegmentable();
+        CANVAS_CONTROL.connect(this.getBBox());
+        CANVAS_CONTROL.source.path.remove();
+        CANVAS_CONTROL.source = null;
+        CANVAS_CONTROL.overlay.unmousemove(CANVAS_CONTROL.moveSegment);
+        CANVAS_CONTROL.makeUnconnectable();
+        CANVAS_CONTROL.makeSegmentable();
     },
     
     /**
