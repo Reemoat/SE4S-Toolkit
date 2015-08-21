@@ -126,29 +126,20 @@
   echo '<script src="src/js/libraries/rgbcolor.js"></script>';
   echo '<script src="src/js/libraries/StackBlur.js"></script>';
   echo '<script src="src/js/libraries/canvg.js"></script>';
-  echo '<script src="src/js/controllers/paper.js"></script>';
-  echo '<script src="src/js/controllers/select.js"></script>';
-  echo '<script src="src/js/controllers/link_factories/'
-    . 'decomposition_factory.js"></script>';
-  echo '<script src="src/js/controllers/link_factories/'
-    . 'contribution_factory.js"></script>';
-  echo '<script src="src/js/controllers/link_factories/dependency_factory.js">'
-    . '</script>';
-  echo '<script src="src/js/controllers/link_factories/belief_link_factory.js">'
-    . '</script>';
-  echo '<script src="src/js/controllers/element_factories/softgoal_factory.js">'
-    . '</script>';
-  echo '<script src="src/js/controllers/element_factories/goal_factory.js">'
-    . '</script>';
-  echo '<script src="src/js/controllers/element_factories/task_factory.js">'
-    . '</script>';
-  echo '<script src="src/js/controllers/element_factories/resource_factory.js">'
-    . '</script>';
-  echo '<script src="src/js/controllers/element_factories/belief_factory.js">'
-    . '</script>';
-  echo '<script src="src/js/controllers/exporter.js"></script>';
-  echo '<script src="src/js/controllers/control.js"></script>';
-  echo '<script src="src/js/controllers/palette.js"></script>';
+  echo '<script src="src/js/paper.js"></script>';
+  echo '<script src="src/js/select.js"></script>';
+  echo '<script src="src/js/link_factories/decomposition_factory.js"></script>';
+  echo '<script src="src/js/link_factories/contribution_factory.js"></script>';
+  echo '<script src="src/js/link_factories/dependency_factory.js"></script>';
+  echo '<script src="src/js/link_factories/belief_link_factory.js"></script>';
+  echo '<script src="src/js/element_factories/softgoal_factory.js"></script>';
+  echo '<script src="src/js/element_factories/goal_factory.js"></script>';
+  echo '<script src="src/js/element_factories/task_factory.js"></script>';
+  echo '<script src="src/js/element_factories/resource_factory.js"></script>';
+  echo '<script src="src/js/element_factories/belief_factory.js"></script>';
+  echo '<script src="src/js/exporter.js"></script>';
+  echo '<script src="src/js/control.js"></script>';
+  echo '<script src="src/js/palette.js"></script>';
   echo '<script src="src/js/onload.js"></script>';
   ?>
 </body>

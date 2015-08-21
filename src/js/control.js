@@ -2,10 +2,7 @@
 var CONTROL = {
     element: [],   // An array of objects that bind shapes and text together
     overlay: null, // Rectangle placed on top of PAPER for handling mouse moves
-    //segment: {     // The segment extending from the source when making a link
-    //    path: null,   // The path from the source to the mouse pointer
-        source: null, // The source element of the segment
-    //},
+    source: null, // The source element of the segment
     
     /**
      * Prepare the text for raphael and editing
@@ -217,7 +214,6 @@ var CONTROL = {
     drawConnection: function () {
         CONTROL.connect(this.getBBox());
         CONTROL.source.path.remove();
-        CONTROL.source.path = null;
         CONTROL.source = null;
         CONTROL.overlay.unmousemove(CONTROL.moveSegment);
         CONTROL.makeUnconnectable();
