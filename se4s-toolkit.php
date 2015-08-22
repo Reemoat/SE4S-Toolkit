@@ -112,17 +112,17 @@
   <img id="export"></img>
   <canvas id="myCanvas"></canvas>
   <?php
-  //include 'Database_Toolkit/toolkit.php';
-  echo '<script src='
-    . '"https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">'
-    . '</script>';
+  include 'Database_Toolkit/toolkit.php';
+  echo '<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/'
+    . 'jquery.min.js"></script>';
   echo '<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/'
     . 'jquery-ui.min.js"></script>';
   echo '<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/'
     . 'bootstrap.min.js"></script>';
   echo '<script src="src/js/libraries/raphael.js"></script>';
   echo '<script src="src/js/libraries/raphael.free_transform.js"></script>';
-  echo '<script src="src/js/libraries/raphael.inline_text_editing.js"></script>';
+  echo '<script src="src/js/libraries/raphael.inline_text_editing.js">'
+    . '</script>';
   echo '<script src="src/js/libraries/raphael.export.js"></script>';
   echo '<script src="src/js/libraries/rgbcolor.js"></script>';
   echo '<script src="src/js/libraries/StackBlur.js"></script>';

@@ -1,7 +1,7 @@
 <?php
     $servername = "localhost";
     $username = "root";
-    $password = "H7e7l7i7u7m7!m";//"12345";
+    $password = "password";
     $dbname = "SE4SToolkit";
 
 try {
