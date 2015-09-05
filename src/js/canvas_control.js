@@ -131,6 +131,14 @@ var CANVAS_CONTROL = {
             return shape.y2;
         }
     },
+
+    /**
+     * Check if the coordindates of two shapes overlap along the x or y-axis
+     */
+    overlap: function (box1, box2) {
+        return box1.x > box2.x && box1.x < box2.x2 || box1.x2 > box2.x
+               && box1.x2 < box2.x2;
+    },
     
     /**
      * Connect a source and destination element with the link of the type
@@ -144,8 +152,7 @@ var CANVAS_CONTROL = {
             path = "M "; // The path string
 
         // Check if the shapes have overlapping horizontalcoordinates
-        if (this.source.x > dst.x && this.source.x < dst.x2
-                || this.source.x2 > dst.x && this.source.x2 < dst.x2) {
+        if (this.overlap(this.source, dst)) {
             x1 = (Math.max(this.source.x, dst.x)
                  + Math.min(this.source.x2, dst.x2)) / 2;
         } else if (this.source.x2 < dst.x) { // src is left of dst
@@ -228,6 +235,7 @@ var CANVAS_CONTROL = {
                                                 this.moveText).hideHandles();
         
         freeTransform.text = this.prepareText(str, x ,y);
+        freeTransform.type = str; // Store the element's type
         this.element.push(freeTransform);
     }
 }
