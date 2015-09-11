@@ -41,3 +41,8 @@ decomposition_type varchar(128),
 FOREIGN KEY (fk_source) REFERENCES Elements(element_Id),
 FOREIGN KEY (fk_destination) REFERENCES Elements(element_Id)
 );
+
+CREATE TABLE Users
+(
+connections_Id int NOT NULL PRIMARY KEY AUTO_INCREMENT,
+);
