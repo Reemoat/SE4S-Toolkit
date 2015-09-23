@@ -326,7 +326,9 @@ class FGMembersite
     
     function HandleDBError($err)
     {
-        $this->HandleError($err."\r\n mysqlerror:".mysql_error());
+        //$this->HandleError($err."\r\n mysqlerror:".mysql_error());
+        $mysql_error = $this->connection->errorInfo();
+        $this->HandleError($err."\r\n mysqlerror:".$mysql_error[2]);
     }
     
     function GetFromAddress()
@@ -719,8 +721,20 @@ class FGMembersite
     {
         $field_val = $this->SanitizeForSQL($formvars[$fieldname]);
         $qry = "select username from $this->tablename where $fieldname='".$field_val."'";
-        $result = mysql_query($qry,$this->connection);   
+        /*$result = mysql_query($qry,$this->connection);   
         if($result && mysql_num_rows($result) > 0)
+        {
+            return false;
+        }*/
+        try
+        {
+            $result = $this->connection->query($qry);
+        }
+        catch (PDOException $e)
+        {
+            return false;
+        }
+        if($result->rowCount() > 0)
         {
             return false;
         }
@@ -730,19 +744,40 @@ class FGMembersite
     function DBLogin()
     {
 
-        $this->connection = mysql_connect($this->db_host,$this->username,$this->pwd);
+        //$this->connection = mysql_connect($this->db_host,$this->username,$this->pwd);
+        try
+        {
+            $this->connection = new PDO(
+                "mysql:host=$this->db_host;dbname=$this->database",
+                $this->username, $this->pwd);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE,
+                                            PDO::ERRMODE_EXCEPTION);
+        }
+        catch (PDOException $e)
+        {
+            echo "Connection failed: " . $e->getMessage();
+        }
 
         if(!$this->connection)
         {   
             $this->HandleDBError("Database Login failed! Please make sure that the DB login credentials provided are correct");
             return false;
         }
-        if(!mysql_select_db($this->database, $this->connection))
+        /*if(!mysql_select_db($this->database, $this->connection))
         {
             $this->HandleDBError('Failed to select database: '.$this->database.' Please make sure that the database name provided is correct');
             return false;
+        }*/
+        /*if(!mysql_query("SET NAMES 'UTF8'",$this->connection))
+        {
+            $this->HandleDBError('Error setting utf8 encoding');
+            return false;
+        }*/
+        try
+        {
+            $this->connection->query("SET NAMES 'UTF8'");
         }
-        if(!mysql_query("SET NAMES 'UTF8'",$this->connection))
+        catch (PDOException $e)
         {
             $this->HandleDBError('Error setting utf8 encoding');
             return false;
@@ -752,11 +787,20 @@ class FGMembersite
     
     function Ensuretable()
     {
-        $result = mysql_query("SHOW COLUMNS FROM $this->tablename");   
-        if(!$result || mysql_num_rows($result) <= 0)
+        //$result = mysql_query("SHOW COLUMNS FROM $this->tablename");   
+        try
+        {
+            $result = $this->connection->query(
+                "SHOW COLUMNS FROM $this->tablename");
+        }
+        catch (PDOException $e)
         {
             return $this->CreateTable();
         }
+        /*if(!$result || mysql_num_rows($result) <= 0)
+        {
+            return $this->CreateTable();
+        }*/
         return true;
     }
     
@@ -773,7 +817,16 @@ class FGMembersite
                 "PRIMARY KEY ( id_user )".
                 ")";
                 
-        if(!mysql_query($qry,$this->connection))
+        /*if(!mysql_query($qry,$this->connection))
+        {
+            $this->HandleDBError("Error creating the table \nquery was\n $qry");
+            return false;
+        }*/
+        try
+        {
+            $this->connection->query($qry);
+        }
+        catch (PDOException $e)
         {
             $this->HandleDBError("Error creating the table \nquery was\n $qry");
             return false;
@@ -803,9 +856,17 @@ class FGMembersite
                 "' . md5($formvars['password']) . '",
                 "' . $confirmcode . '"
                 )';      
-        if(!mysql_query( $insert_query ,$this->connection))
+        /*if(!mysql_query( $insert_query ,$this->connection))
         {
             $this->HandleDBError("Error inserting data to the table\nquery:$insert_query");
+            return false;
+        }*/
+        try
+        {
+            $this->connection->query($insert_query);
+        }
+        catch (PDOException $e)
+        {
             return false;
         }        
         return true;
