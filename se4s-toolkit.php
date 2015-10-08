@@ -117,7 +117,8 @@
   </div>
   <button type="button" onclick="EXPORTER.exportXml()">Export XML</button>
   <button type="button" onclick="EXPORTER.exportPng()">Export png</button>
-  <button type="button" onclick="EXPORTER.exportPdf()">Export pdf</button>
+  <button type="button" onclick="EXPORTER.exportJpg()">Export jpg</button>
+  <button type="button" onclick="EXPORTER.exportGif()">Export gif</button>
   <button type="button" onclick="SAVER.save()">Save</button>
   <img id="export"></img>
   <canvas id="myCanvas"></canvas>

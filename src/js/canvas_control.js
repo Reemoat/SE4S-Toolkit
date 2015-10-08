@@ -2,16 +2,18 @@
 var CANVAS_CONTROL = {
     element: [],   // An array of objects that bind shapes and text together
     overlay: null, // Rectangle placed on top of PAPER for handling mouse moves
-    source: null, // The source element of the segment
+    source: null,  // The source element of the segment
+    id: 0,         // Identifier to match text to its element
     
     /**
      * Prepare the text for raphael and editing
      */
-    prepareText: function(str, x, y, id) {
+    prepareText: function(str, x, y) {
         // Both font and font-family are necessary for the export library
         var text = PAPER.text(x, y, str).attr({font: "15px Georgia",
                    "font-family": "Georgia", "font-size": "15px"});
 
+        text.id = id;
         PAPER.inlineTextEditing(text);
         text.click(this.editText);
         return text;
@@ -87,6 +89,23 @@ var CANVAS_CONTROL = {
                                      this.attrs.translate.y.toString());
         this.text.transform(translate);
     },
+
+    /**
+     * This function returns the length of the longest string in an array
+     */
+    getLongestLength: function(array) {
+        var longest = 0; // The length of the longest string
+
+        // Loop through every member of the array
+        for (var i = 0; i < array.length; i++) {
+            // If the current string's length exceeds longest, then record it
+            if (array[i].length > longest) {
+                longest = array[i].length;
+            }
+        }
+
+        return longest;
+    },
     
     /**
      * Handler for when a user clicks on text to edit it
@@ -98,10 +117,20 @@ var CANVAS_CONTROL = {
         input.addEventListener("blur", function (e) {
             text.inlineTextEditing.stopEditing();
         }, true);
-        var str = text.attrs.text;
+        /*var str = this.attrs.text;
         var strarray = str.split("\n");
-        //var chars = Math.max(strarray);
-        //console.log(text.attrs["font-size"]);
+        var chars = CANVAS_CONTROL.getLongestLength(strarray);
+        var size = parseInt(this.attrs["font-size"]);
+        var textWidth = chars * size;
+        var elementWidth = this.getBBox().width;
+
+        // The text's width exceeds the shape's width, then expand
+        if (textWidth >= elementWidth) {
+            var scale = textWidth / elementWidth;
+            console.log(textWidth);
+            console.log(elementWidth);
+            console.log(this.id);
+        }*/
     },
     
     /**
@@ -234,8 +263,10 @@ var CANVAS_CONTROL = {
         var freeTransform = PAPER.freeTransform(grlElement, {rotate: false},
                                                 this.moveText).hideHandles();
         
-        freeTransform.text = this.prepareText(str, x ,y);
+        freeTransform.text = this.prepareText(str, x, y);
         freeTransform.type = str; // Store the element's type
+        freeTransform.id = id;
         this.element.push(freeTransform);
+        id++;
     }
 }
