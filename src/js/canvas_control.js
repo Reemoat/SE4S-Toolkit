@@ -3,7 +3,6 @@ var CANVAS_CONTROL = {
     element: [],   // An array of objects that bind shapes and text together
     overlay: null, // Rectangle placed on top of PAPER for handling mouse moves
     source: null,  // The source element of the segment
-    id: 0,         // Identifier to match text to its element
     
     /**
      * Prepare the text for raphael and editing
@@ -13,7 +12,6 @@ var CANVAS_CONTROL = {
         var text = PAPER.text(x, y, str).attr({font: "15px Georgia",
                    "font-family": "Georgia", "font-size": "15px"});
 
-        text.id = id;
         PAPER.inlineTextEditing(text);
         text.click(this.editText);
         return text;
@@ -106,6 +104,19 @@ var CANVAS_CONTROL = {
 
         return longest;
     },
+
+    /**
+     * The function returns the parent element of a text object
+     */
+    getParent: function(child) {
+        // Loop through the element's until a match is found
+        for (var i = 0; i < this.element.length; i++) {
+            // If the text element matches the child, then parent is found
+            if (this.element[i].text === child) {
+                return this.element[i];
+            }
+        }
+    },
     
     /**
      * Handler for when a user clicks on text to edit it
@@ -116,21 +127,20 @@ var CANVAS_CONTROL = {
 
         input.addEventListener("blur", function (e) {
             text.inlineTextEditing.stopEditing();
-        }, true);
-        /*var str = this.attrs.text;
-        var strarray = str.split("\n");
-        var chars = CANVAS_CONTROL.getLongestLength(strarray);
-        var size = parseInt(this.attrs["font-size"]);
-        var textWidth = chars * size;
-        var elementWidth = this.getBBox().width;
+            var freeTransform = CANVAS_CONTROL.getParent(text);
+            var textWidth = text.getBBox().width;
+            var elementWidth = freeTransform.subject.getBBox().width;
 
-        // The text's width exceeds the shape's width, then expand
-        if (textWidth >= elementWidth) {
-            var scale = textWidth / elementWidth;
-            console.log(textWidth);
-            console.log(elementWidth);
-            console.log(this.id);
-        }*/
+            // If the text's width exceeds the shape's width, then expand
+            if (textWidth >= elementWidth) {
+                var scaleFactor = textWidth / elementWidth + 0.1;
+
+                freeTransform.attrs.scale.x = scaleFactor;
+                freeTransform.apply()
+                console.log(textWidth);
+                console.log(elementWidth);
+            }
+        }, true);
     },
     
     /**
@@ -265,8 +275,6 @@ var CANVAS_CONTROL = {
         
         freeTransform.text = this.prepareText(str, x, y);
         freeTransform.type = str; // Store the element's type
-        freeTransform.id = id;
         this.element.push(freeTransform);
-        id++;
     }
 }
