@@ -1,5 +1,6 @@
 // This object thiss most of the program's flow
 var CANVAS_CONTROL = {
+    textBoxFactor: 7 / 25, // Adjusts horizontal textbox widths
     element: [],   // An array of objects that bind shapes and text together
     overlay: null, // Rectangle placed on top of PAPER for handling mouse moves
     source: null,  // The source element of the segment
@@ -127,18 +128,18 @@ var CANVAS_CONTROL = {
 
         input.addEventListener("blur", function (e) {
             text.inlineTextEditing.stopEditing();
-            var freeTransform = CANVAS_CONTROL.getParent(text);
-            var textWidth = text.getBBox().width;
+
+            var textBox = text.getBBox(); // The text's containing box
+            var freeTransform = CANVAS_CONTROL.getParent(text); // the text's ft
             var elementWidth = freeTransform.subject.getBBox().width;
 
             // If the text's width exceeds the shape's width, then expand
-            if (textWidth >= elementWidth) {
-                var scaleFactor = textWidth / elementWidth + 0.1;
-
-                freeTransform.attrs.scale.x = scaleFactor;
+            if (textBox.width >= elementWidth - elementWidth
+                             * CANVAS_CONTROL.textBoxFactor) {
+                freeTransform.attrs.scale.x = textBox.width
+                                              / freeTransform.textWidth + 0.1;
                 freeTransform.apply()
-                console.log(textWidth);
-                console.log(elementWidth);
+                freeTransform.updateHandles();
             }
         }, true);
     },
@@ -271,10 +272,12 @@ var CANVAS_CONTROL = {
      */
     pushElement: function (grlElement, x, y, str) {
         var freeTransform = PAPER.freeTransform(grlElement, {rotate: false},
-                                                this.moveText).hideHandles();
+                                                this.moveText).hideHandles(),
+            width = grlElement.getBBox().width; // Initial element width
         
         freeTransform.text = this.prepareText(str, x, y);
         freeTransform.type = str; // Store the element's type
+        freeTransform.textWidth = width - width * this.textBoxFactor;
         this.element.push(freeTransform);
     }
 }
