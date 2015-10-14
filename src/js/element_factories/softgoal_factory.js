@@ -8,8 +8,8 @@ var SOFTGOAL_FACTORY = {
             centerx = event.clientX + 100; // Centers the mouse cursor
             
         path = path.concat(centerx.toString(), ",", event.clientY.toString(),
-            " c 0,108 -47,43 -100,39 -47,0 -100,65 -100,-39 0,-108 47,-43 \
-            100,-43 47,0 100,-65, 100,43");
+            " c 0,80 -47,40 -100,40 -53,0 -100,40 -100,-40 0,-80 47,-40 \
+            100,-40 53,0 100,-40 100,40");
         CANVAS_CONTROL.pushElement(PAPER.path(path).attr({"stroke-width": 3,
             fill: "#ffffff"}), event.clientX, event.clientY, "softgoal");
     }

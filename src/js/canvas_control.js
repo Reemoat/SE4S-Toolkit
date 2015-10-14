@@ -1,6 +1,7 @@
 // This object thiss most of the program's flow
 var CANVAS_CONTROL = {
-    textBoxFactor: 7 / 25, // Adjusts horizontal textbox widths
+    widthFactor: 7 / 25, // Adjusts textbox widths
+    heightFactor: 1 / 5, // Adjusts textbox heights
     element: [],   // An array of objects that bind shapes and text together
     overlay: null, // Rectangle placed on top of PAPER for handling mouse moves
     source: null,  // The source element of the segment
@@ -123,21 +124,32 @@ var CANVAS_CONTROL = {
      * Handler for when a user clicks on text to edit it
      */
     editText: function () {
-        var text = this;
-        var input = text.inlineTextEditing.startEditing();
+        var text = this, // Needed for call to stopEditing()
+            input = text.inlineTextEditing.startEditing(), // Edit object
+            textBox,       // The text's containing box
+            freeTransform, // the text's corresponding freeTransform object
+            elementBox;    // The bounding box of the text's element
 
         input.addEventListener("blur", function (e) {
             text.inlineTextEditing.stopEditing();
-
-            var textBox = text.getBBox(); // The text's containing box
-            var freeTransform = CANVAS_CONTROL.getParent(text); // the text's ft
-            var elementWidth = freeTransform.subject.getBBox().width;
+            textBox = text.getBBox(); // The text's containing box
+            freeTransform = CANVAS_CONTROL.getParent(text); // the text's ft
+            elementBox = freeTransform.subject.getBBox();
 
             // If the text's width exceeds the shape's width, then expand
-            if (textBox.width >= elementWidth - elementWidth
-                             * CANVAS_CONTROL.textBoxFactor) {
+            if (textBox.width >= elementBox.width - elementBox.width
+                    * CANVAS_CONTROL.widthFactor) {
                 freeTransform.attrs.scale.x = textBox.width
                                               / freeTransform.textWidth + 0.1;
+                freeTransform.apply()
+                freeTransform.updateHandles();
+            }
+
+            // If the text's height exceeds the shape's height, then expand
+            if (textBox.height >= elementBox.height - elementBox.height
+                    * CANVAS_CONTROL.heightFactor) {
+                freeTransform.attrs.scale.y = textBox.height
+                                              / freeTransform.textHeight + 0.1;
                 freeTransform.apply()
                 freeTransform.updateHandles();
             }
@@ -273,11 +285,12 @@ var CANVAS_CONTROL = {
     pushElement: function (grlElement, x, y, str) {
         var freeTransform = PAPER.freeTransform(grlElement, {rotate: false},
                                                 this.moveText).hideHandles(),
-            width = grlElement.getBBox().width; // Initial element width
+            box = grlElement.getBBox(); // Initial element's bounding box
         
         freeTransform.text = this.prepareText(str, x, y);
         freeTransform.type = str; // Store the element's type
-        freeTransform.textWidth = width - width * this.textBoxFactor;
+        freeTransform.textWidth = box.width - box.width * this.widthFactor;
+        freeTransform.textHeight = box.height - box.height * this.heightFactor;
         this.element.push(freeTransform);
     }
 }
