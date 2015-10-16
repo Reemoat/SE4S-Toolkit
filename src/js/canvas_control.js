@@ -270,7 +270,7 @@ var CANVAS_CONTROL = {
                            x2.toString(), ",", y2.toString());
 
         // Check if the connection is new or not
-        if (PALETTE_CONTROL.currentSelection === SELECT) {
+        if (id < this.connection.length) {
             this.connection[id].element = this.connection[id].type.makeLink(
                 path, x1, y1, x2, y2);
         } else {

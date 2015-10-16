@@ -9,7 +9,7 @@ var CONTRIBUTION_FACTORY = {
     /**
      * Create the contribution
      */
-    makeLink: function (path, x1, y1, x2, y2) {
+    makeLink: function(path, x1, y1, x2, y2) {
         var arrowhead = "M ",  // The arrowhead, first its path, then its shape
             ax1 = x2 - 20,     // The x-coordinate of one arm of the arrowhead
             ay1 = y2 - 10,     // The y-corrdinate of one arm of the arrowhead
