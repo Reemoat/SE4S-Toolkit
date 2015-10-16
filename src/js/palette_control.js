@@ -30,9 +30,9 @@ var PALETTE_CONTROL = {
      */
     isLinkable: function () {
         return this.currentSelection === DECOMPOSITION_FACTORY
-               && this.currentSelection === CONTRIBUTION_FACTORY
-               && this.currentSelection === DEPENDENCY_FACTORY
-               && this.currentSelection === BELIEF_LINK_FACTORY;
+               || this.currentSelection === CONTRIBUTION_FACTORY
+               || this.currentSelection === DEPENDENCY_FACTORY
+               || this.currentSelection === BELIEF_LINK_FACTORY;
     },
 
     /**
@@ -127,5 +127,5 @@ var PALETTE_CONTROL = {
     highlightBelief: function () {
         this.highlightElement();
         this.currentSelection = BELIEF_FACTORY;
-    }
+    },
 }

@@ -2,9 +2,10 @@
 var CANVAS_CONTROL = {
     widthFactor: 7 / 25, // Adjusts textbox widths
     heightFactor: 1 / 5, // Adjusts textbox heights
-    element: [],   // An array of objects that bind shapes and text together
-    overlay: null, // Rectangle placed on top of PAPER for handling mouse moves
-    source: null,  // The source element of the segment
+    element: [],    // An array of objects that bind shapes and text together
+    overlay: null,  // Rectangle placed on top of PAPER for handling mouse moves
+    source: null,   // The source element of the segment
+    connection: [], // The graph's connections
     
     /**
      * Prepare the text for raphael and editing
@@ -82,12 +83,47 @@ var CANVAS_CONTROL = {
     /**
      * This function makes the text move with its corresponding element
      */
-    moveText: function () {
+    moveText: function(freeTransform) {
         var translate = "t"; // String that dictates the translation
 
-        translate = translate.concat(this.attrs.translate.x.toString(), ",",
-                                     this.attrs.translate.y.toString());
-        this.text.transform(translate);
+        translate = translate.concat(freeTransform.attrs.translate.x.toString(),
+            ",", freeTransform.attrs.translate.y.toString());
+        freeTransform.text.transform(translate);
+    },
+
+    /**
+     * This function adjusts connections when an element moves
+     */
+    reconnect: function(element) {
+        // Locate any connection that has the moving shape
+        for (var i = 0; i < CANVAS_CONTROL.connection.length; i++) {
+            // If the connection has the moving element as a source, reconnect
+            if (CANVAS_CONTROL.connection[i].source === element) {
+                CANVAS_CONTROL.connection[i].element[0].remove();
+                CANVAS_CONTROL.connection[i].element[1].remove();
+                CANVAS_CONTROL.source = element;
+                CANVAS_CONTROL.connect(
+                    CANVAS_CONTROL.connection[i].destination, i);
+                CANVAS_CONTROL.source = null;
+            }
+
+            // If connection has the moving element as a destination, reconnect
+            if (CANVAS_CONTROL.connection[i].destination === element) {
+                CANVAS_CONTROL.connection[i].element[0].remove();
+                CANVAS_CONTROL.connection[i].element[1].remove();
+                CANVAS_CONTROL.source = CANVAS_CONTROL.connection[i].source;
+                CANVAS_CONTROL.connect(element, i);
+                CANVAS_CONTROL.source = null;
+            }
+        }
+    },
+
+    /**
+     * This function moves an element's text and adjusts its connections
+     */
+    moveTextAndReconnect: function () {
+        CANVAS_CONTROL.moveText(this);
+        CANVAS_CONTROL.reconnect(this.subject);
     },
 
     /**
@@ -196,51 +232,67 @@ var CANVAS_CONTROL = {
      * Connect a source and destination element with the link of the type
      * highlighted in the palette
      */
-    connect: function (dst) {
-        var x1,          // The src's connection pt
-            y1,          // The src's connection pt
-            x2,          // The dst's connection pt
-            y2,          // The dst's connection pt
-            path = "M "; // The path string
+    connect: function(dst, id) {
+        var x1,                             // The src's connection pt
+            y1,                             // The src's connection pt
+            x2,                             // The dst's connection pt
+            y2,                             // The dst's connection pt
+            srcBox = this.source.getBBox(), // The source's bounding box
+            dstBox = dst.getBBox(),         // The destination's bounding box
+            path = "M ",                    // The path string
+            link;                           // The finished connection
 
-        // Check if the shapes have overlapping horizontalcoordinates
-        if (this.overlap(this.source, dst)) {
-            x1 = (Math.max(this.source.x, dst.x)
-                 + Math.min(this.source.x2, dst.x2)) / 2;
-        } else if (this.source.x2 < dst.x) { // src is left of dst
-            x1 = this.source.x2;
+        // Check if the shapes have overlapping horizontal coordinates
+        if (this.overlap(srcBox, dstBox)) {
+            x1 = (Math.max(srcBox.x, dstBox.x)
+                + Math.min(srcBox.x2, dstBox.x2)) / 2;
+        } else if (srcBox.x2 < dstBox.x) { // src is left of dst
+            x1 = srcBox.x2;
         } else { // src is right of dst
-            x1 = this.source.x;
+            x1 = srcBox.x;
         }
 
         // Check if the shapes have overlapping vertical coordinates
-        if (this.source.y > dst.y && this.source.y < dst.y2
-                || this.source.y2 > dst.y && this.source.y2 < dst.y2) {
-            y1 = (Math.max(this.source.y, dst.y)
-                    + Math.min(this.source.y2, dst.y2)) / 2;
-        } else if (this.source.y2 < dst.y) { // src is above dst
-            y1 = this.source.y2;
+        if (srcBox.y > dstBox.y && srcBox.y < dstBox.y2 || srcBox.y2 > dstBox.y
+                && srcBox.y2 < dstBox.y2) {
+            y1 = (Math.max(srcBox.y, dstBox.y) + Math.min(srcBox.y2, dstBox.y2))
+                / 2;
+        } else if (srcBox.y2 < dstBox.y) { // src is above dst
+            y1 = srcBox.y2;
         } else { // src is below dst
-            y1 = this.source.y;
+            y1 = srcBox.y;
         }
 
-        x2 = this.getNearestX(x1, dst);
-        y2 = this.getNearestY(y1, dst);
+        x2 = this.getNearestX(x1, dstBox);
+        y2 = this.getNearestY(y1, dstBox);
 
         path = path.concat(x1.toString(), ",", y1.toString(), " ",
                            x2.toString(), ",", y2.toString());
-        PALETTE_CONTROL.currentSelection.makeLink(path, x1, y1, x2, y2);
+
+        // Check if the connection is new or not
+        if (PALETTE_CONTROL.currentSelection === SELECT) {
+            this.connection[id].element = this.connection[id].type.makeLink(
+                path, x1, y1, x2, y2);
+        } else {
+            this.connection.push({source: this.source,
+                destination: dst,
+                type: PALETTE_CONTROL.currentSelection,
+                element: PALETTE_CONTROL.currentSelection.makeLink(path, x1, y1,
+                                                                   x2, y2)
+            });
+        }
     },
             
     /**
      * Draw a line from the source element of a click
      */
     makeSegment: function () {
-        var path = "M ",       // Path from the source to the mouse
-            x = event.clientX, // x-coordinate of the mouse
-            y = event.clientY, // y-coordinate of the mouse
-            x2 = this.getNearestX(x, this.source), // x-coord on src
-            y2 = this.getNearestY(y, this.source); // y-coord on src
+        var path = "M ", // Path from the source to the mouse
+            srcBox = this.source.getBBox(),        // The source's bounding box
+            x = event.clientX,                     // x-coordinate of the mouse
+            y = event.clientY,                     // y-coordinate of the mouse
+            x2 = this.getNearestX(x, srcBox), // x-coord on src
+            y2 = this.getNearestY(y, srcBox); // y-coord on src
 
         path = path.concat(x2.toString(), ",", y2.toString(), " ", x.toString(),
                            ",", y.toString());
@@ -260,7 +312,7 @@ var CANVAS_CONTROL = {
      * and the user has yet to select a source
      */
     drawSegment: function () {
-        CANVAS_CONTROL.source = this.getBBox();
+        CANVAS_CONTROL.source = this;
         CANVAS_CONTROL.makeSegment();
         CANVAS_CONTROL.overlay.mousemove(CANVAS_CONTROL.moveSegment);
         CANVAS_CONTROL.makeUnsegmentable();
@@ -271,7 +323,7 @@ var CANVAS_CONTROL = {
      * Draw the connection from source to destination, and reset the segment
      */
     drawConnection: function () {
-        CANVAS_CONTROL.connect(this.getBBox());
+        CANVAS_CONTROL.connect(this, CANVAS_CONTROL.connection.length);
         CANVAS_CONTROL.source.path.remove();
         CANVAS_CONTROL.source = null;
         CANVAS_CONTROL.overlay.unmousemove(CANVAS_CONTROL.moveSegment);
@@ -284,7 +336,7 @@ var CANVAS_CONTROL = {
      */
     pushElement: function (grlElement, x, y, str) {
         var freeTransform = PAPER.freeTransform(grlElement, {rotate: false},
-                                                this.moveText).hideHandles(),
+                            this.moveTextAndReconnect).hideHandles(),
             box = grlElement.getBBox(); // Initial element's bounding box
         
         freeTransform.text = this.prepareText(str, x, y);

@@ -10,13 +10,14 @@ var CONTRIBUTION_FACTORY = {
      * Create the contribution
      */
     makeLink: function (path, x1, y1, x2, y2) {
-        var arrowhead = "M ", // The arrowhead, first its path, then its shape
-            ax1 = x2 - 20,    // The x-coordinate of one arm of the arrowhead
-            ay1 = y2 - 10,    // The y-corrdinate of one arm of the arrowhead
-            ax2 = ax1,        // The x-coordinate of the other arm
-            ay2 = y2 + 10,    // The y-coordinate of the other arm
-            theta = 0,        // How much the arrowhead must rotate
-            rotate = "r";     // The rotation string
+        var arrowhead = "M ",  // The arrowhead, first its path, then its shape
+            ax1 = x2 - 20,     // The x-coordinate of one arm of the arrowhead
+            ay1 = y2 - 10,     // The y-corrdinate of one arm of the arrowhead
+            ax2 = ax1,         // The x-coordinate of the other arm
+            ay2 = y2 + 10,     // The y-coordinate of the other arm
+            theta = 0,         // How much the arrowhead must rotate
+            rotate = "r",      // The rotation string
+            set = PAPER.set(); // A set containing the path and its head
 
         arrowhead = arrowhead.concat(ax1.toString(), ",", ay1.toString(), " ",
             x2.toString(), ",", y2.toString(), " ", ax2.toString(), ",",
@@ -41,9 +42,11 @@ var CONTRIBUTION_FACTORY = {
 
         rotate = rotate.concat(theta.toString(), ",", x2.toString(), ",",
                                y2.toString());
-        PAPER.path(path).attr({"stroke-width": 5});
+        set.push(PAPER.path(path).attr({"stroke-width": 5}));
         arrowhead = PAPER.path(arrowhead).attr({"stroke-width": 5,
                 "stroke-linecap": "round"});
         arrowhead.transform(rotate);
-    }
+        set.push(arrowhead);
+        return set;
+    },
 }
