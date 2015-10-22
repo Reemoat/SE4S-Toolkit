@@ -139,6 +139,7 @@
   <script src="src/js/libraries/canvg.js"></script>
   <script src="src/js/paper.js"></script>
   <script src="src/js/select.js"></script>
+  <script src="src/js/link_factories/link_calculator.js"></script>
   <script src="src/js/link_factories/decomposition_factory.js"></script>
   <script src="src/js/link_factories/contribution_factory.js"></script>
   <script src="src/js/link_factories/dependency_factory.js"></script>
