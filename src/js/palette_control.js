@@ -49,6 +49,14 @@ var PALETTE_CONTROL = {
     },
 
     /**
+     * Highlight means-ends and set it to current
+     */
+    highlightMeansEnds: function () {
+        this.highlightLink();
+        this.currentSelection = MEANS_ENDS_FACTORY;
+    },
+    
+    /**
      * Highlight decomposition and set it to current
      */
     highlightDecomposition: function () {

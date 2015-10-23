@@ -47,6 +47,10 @@
       Links
     </button>
     <div id="links" class="collapse">
+      <div id="means-ends" class="option"
+           onclick="PALETTE_CONTROL.highlightMeansEnds()">
+        Means-Ends
+      </div>
       <div id="decomposition" class="option"
         onclick="PALETTE_CONTROL.highlightDecomposition()">
         <img src="img/Decomposition16.gif" alt="Decomposition" />
@@ -140,6 +144,7 @@
   <script src="src/js/paper.js"></script>
   <script src="src/js/select.js"></script>
   <script src="src/js/link_factories/link_calculator.js"></script>
+  <script src="src/js/link_factories/means_ends_factory.js"></script>
   <script src="src/js/link_factories/decomposition_factory.js"></script>
   <script src="src/js/link_factories/contribution_factory.js"></script>
   <script src="src/js/link_factories/dependency_factory.js"></script>
